@@ -1,0 +1,620 @@
+$primary-color: #7266d8;
+@font-face {
+    font-family: GB;
+    src: url(./static/fonts/Gilroy-Bold.ttf);
+}
+@font-face {
+    font-family: GM;
+    src: url(./static/fonts/Gilroy-Medium.ttf);
+}
+
+@font-face {
+    font-family: GR;
+    src: url(./static/fonts/Gilroy-Regular.ttf);
+}
+
+@font-face {
+    font-family: GL;
+    src: url(./static/fonts/Gilroy-Light.ttf);
+}
+
+.headingHuge {
+    font-size: 30px;
+    font-family: GB;
+    margin-top: 20px;
+}
+.headingHuge2 {
+    font-size: 25px;
+    font-family: GB;
+    // margin-top: 20px;
+}
+
+.heading1 {
+    font-family: GM, "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.heading2 {
+    font-family: GM, "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 16px;
+}
+
+.heading3 {
+    font-family: GM, "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 13px;
+}
+
+.heading6 {
+    font-family: GM, "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 12px;
+}
+
+::placeholder {
+    color: #bbb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.topbar {
+    width: 100%;
+    height: 70px;
+    background: $primary-color;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .topbarLeft {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logo {
+            max-width: 70%;
+            max-height: 40px;
+        }
+    }
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: fixed;
+    width: 100%;
+}
+
+.left {
+    width: 19%;
+    position: relative;
+    transition: 0.4s;
+}
+
+.leftClosed {
+    width: 5%;
+    position: relative;
+    transition: 0.4s;
+
+    .profileContainerLeft {
+        display: none;
+    }
+    .adminLinksLeft {
+        width: 100%;
+
+        li {
+            text-align: center;
+
+            .iconLeft {
+                font-size: 19px;
+            }
+
+            .linkText {
+                display: none;
+            }
+        }
+
+        .active {
+            background: transparent;
+            color: $primary-color;
+        }
+    }
+}
+
+.chevronContainer {
+    position: absolute;
+    background: #ddd;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    right: -18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+.right {
+    padding-left: 60px;
+    width: 100%;
+    padding-right: 40px;
+    transition: 0.4s;
+    overflow: auto;
+}
+
+.topbarRight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .topSearchbar {
+        width: 38%;
+    }
+
+    .topRightAccount {
+        display: flex;
+        align-items: center;
+
+        .topBellContainer {
+            position: relative;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .topBell {
+                color: #fff;
+                font-size: 25px;
+                cursor: pointer;
+
+                &:hover {
+                    color: #ccc;
+                }
+            }
+
+            .active {
+                position: absolute;
+                border: 2px solid $primary-color;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #fff;
+                top: 2%;
+                right: 1px;
+
+                &:hover {
+                    color: #ccc;
+                }
+            }
+        }
+
+        .topProfilePhoto {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 40px;
+            cursor: pointer;
+        }
+
+        .profileInfoFloating.hide {
+            display: none;
+        }
+        .profileInfoFloating.active {
+            position: absolute;
+            width: 220px;
+            right: 10px;
+            background: rgb(252, 252, 252);
+            border-radius: 10px;
+            border: 1px solid saddlebrown;
+
+            .profileInfoFloatingTop {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .profileAboutTop {
+                color: #ccc;
+                margin-top: 3px;
+            }
+
+            .profileLinkTop {
+                list-style-type: none;
+
+                li {
+                    border-top: 1px solid rgb(218, 218, 218);
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
+
+.searchForm {
+    width: 100%;
+    position: relative;
+
+    input {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .searchIcon {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $primary-color;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}
+
+// sidebar ===========================
+
+.sidebar {
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    // height: 500px;
+}
+
+.profileContainerLeft {
+    width: 100%;
+    text-align: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    transition: 1s;
+
+    .profilePhotoLeft {
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        border: 8px solid #ccc;
+    }
+
+    .profileNameLeft {
+        margin-top: 6px;
+    }
+
+    .profileEmailLeft {
+        color: #888;
+        margin-top: 5px;
+        // font-size: 18px;
+    }
+}
+
+.adminLinksLeft {
+    padding: 10px 0;
+    width: 86%;
+
+    .li {
+        text-decoration: none;
+    }
+    li {
+        margin: 14px 0;
+        font-family: GL, serif;
+        color: #777;
+        font-size: 13px;
+        padding: 10px 14px;
+
+        .iconLeft {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    }
+
+    .active {
+        background: linear-gradient(91.23deg, rgba(114, 102, 216, 0) -28.93%, #7266d8 25.45%);
+        color: #fff;
+        filter: drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.3));
+        border-radius: 0px 34px 34px 0px;
+    }
+}
+
+// other pages
+.mainRight {
+    background: #f2efff;
+    height: calc(100vh - 70px);
+}
+
+.breadcrumb {
+    color: #888 !important;
+    font-family: GM, sans-serif;
+    font-size: 13px;
+}
+
+.pageTitle {
+    font-family: GB;
+    font-size: 25px;
+    margin-top: 15px;
+    color: #444;
+}
+
+.tableContainer {
+    background: #fff;
+    border: none;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+// 404 error page
+.errContainer {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img {
+        width: 300px;
+        animation: animateOne infinite 5s;
+    }
+}
+
+@keyframes animateOne {
+    0% {
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(-10%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+// table top ie search and add btn
+.tableTop {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.7rem;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+form {
+    position: relative;
+}
+
+.tableTopLeft input {
+    width: 300px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    outline: none;
+    font-size: 11px;
+}
+
+.searchBtn {
+    position: absolute;
+    right: 10px;
+    transform: translateY(-50%);
+    top: 50%;
+    color: $primary-color;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px !important;
+    width: 6px !important;
+}
+
+.addBtn {
+    background: $primary-color;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: "GM", serif;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.addBtn:hover {
+    background: #7166d89a;
+}
+
+// data table styles
+
+.MuiDataGrid-columnHeaders {
+    background: #f2f2f2;
+}
+
+.css-1s0hp0k-MuiDataGrid-columnHeadersInner > * {
+    text-align: center;
+    margin: auto;
+    font-size: 16px;
+}
+
+.tableActionContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.iconView {
+    color: #2f80ed;
+    font-size: 16px !important;
+    cursor: pointer;
+}
+
+.iconEdit {
+    font-size: 16px !important;
+    color: #e9af00;
+    cursor: pointer;
+}
+
+.statusContainer {
+    width: 100%;
+    text-align: center;
+}
+
+.statusText {
+    display: inline-block;
+    text-transform: uppercase;
+    margin: auto;
+    padding: 4px 0;
+    width: 90px;
+    border: none;
+    border-radius: 20px;
+}
+
+.approvedText {
+    background: #4dfe98;
+}
+
+.pendingText {
+    background: #ffea7a;
+}
+
+.rejectedText {
+    background: #ff9e9e;
+}
+
+// DASHBOARD======================
+.cardsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    box-shadow: 0 15px 20px #ddd;
+    border-radius: 6px;
+    font-family: GM, sans-serif;
+    font-size: 18px;
+    background: #fff;
+}
+
+.cardLeft {
+    flex: 1;
+}
+
+.cardRight {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .cardNumber {
+        color: #97b3fb;
+    }
+}
+
+.cardIcon {
+    font-size: 40px;
+    color: #97b3fb;
+}
+
+//
+.flexBetween {
+    display: flex;
+    justify-content: space-between;
+}
+
+.editForm {
+    // margin-top: 200px;
+}
+.formControl {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(201, 201, 201, 0.333);
+    margin: 10px 0;
+    outline: none;
+}
+
+.modalCloseBtn {
+    background: transparent;
+    border: 1px solid #aaa;
+    font-size: 20px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    transition: 0.3s;
+
+    &:hover {
+        background: #aaa;
+    }
+}
+
+.btn {
+    font-size: 18px;
+    font-family: GM;
+    padding: 6px 15px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.cancelBtn {
+    background: #ed5564;
+    color: #fff;
+}
+
+.addForm {
+    background: #5c89fc;
+}
+
+// PIE
+.pieContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 50px 0;
+
+    .pieCard {
+        // background: rgba(255, 0, 0, 0.176);
+        flex: 1;
+    }
+}
+
+.apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left,
+.apexcharts-legend.apx-legend-position-top.apexcharts-align-left,
+.apexcharts-legend.apx-legend-position-right,
+.apexcharts-legend.apx-legend-position-left {
+    /* justify-content: flex-start; */
+    display: none;
+}
+
+.chatTitle {
+    font-family: GM;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
