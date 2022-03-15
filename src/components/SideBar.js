@@ -1,6 +1,5 @@
 import profile_photo from '../static/img/profile_photo.jpg'
-import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function SideBar({ leftClosed, setLeftClosed }) {
     const history = useLocation()

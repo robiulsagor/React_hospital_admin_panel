@@ -5,11 +5,11 @@ import profile_photo from '../static/img/profile_photo.jpg'
 import logo_short from '../static/img/logo header.png'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ClickAwayListener from 'react-click-away-listener'
 
 export default function Topbar({ leftClosed, setLeftClosed }) {
     const [notification, setNotification] = useState(true)
     const [showProfileTop, setShowProfileTop] = useState(false)
-
 
     const clearNotification = () => {
         setNotification(false)
@@ -17,7 +17,6 @@ export default function Topbar({ leftClosed, setLeftClosed }) {
 
     const profileTop = () => {
         setShowProfileTop(!showProfileTop)
-        console.log("working");
     }
 
 
@@ -47,24 +46,28 @@ export default function Topbar({ leftClosed, setLeftClosed }) {
                             <span className={notification ? 'active' : ''}></span>
                         </div>
 
-                        <div>
-                            <img src={profile_photo} alt="" className='topProfilePhoto' onMouseDown={profileTop} />
+                        <ClickAwayListener onClickAway={() => setShowProfileTop(false)}>
+                            <div>
 
-                            <div className={showProfileTop ? 'profileInfoFloating active' : 'profileInfoFloating hide'}
-                                onMouseLeave={() => setShowProfileTop(false)}>
-                                <div className='profileInfoFloatingTop'>
-                                    <p className="profileNameTop heading2">Fortis Hospital Jaipur</p>
-                                    <p className="profileAboutTop heading2">Administrator</p>
-                                </div>
-                                <div className="profileLinkTop">
-                                    <li className="linkTop heading3">My Profile</li>
-                                    <li className="linkTop heading3">Log Out</li>
+                                <img src={profile_photo} alt="" className='topProfilePhoto' onMouseDown={profileTop} />
+
+                                <div className={showProfileTop ? 'profileInfoFloating active' : 'profileInfoFloating hide'}
+                                    onMouseLeave={() => setShowProfileTop(false)}>
+                                    <div className='profileInfoFloatingTop'>
+                                        <p className="profileNameTop heading2">Fortis Hospital Jaipur</p>
+                                        <p className="profileAboutTop heading2">Administrator</p>
+                                    </div>
+                                    <div className="profileLinkTop">
+                                        <li className="linkTop heading3">My Profile</li>
+                                        <li className="linkTop heading3">Log Out</li>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </ClickAwayListener>
                     </div>
                 </div>
             </div>
+
         </div >
     )
 }

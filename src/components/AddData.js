@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AddForm from './AddForm';
-
 
 const style = {
     position: 'absolute',
@@ -22,12 +19,10 @@ const style = {
 };
 
 export default function AddData() {
-    const [search, setSearch] = useState('')
     const [open, setOpen] = React.useState(false);
     const handleOpen = (data) => {
         console.log(data);
         setOpen(true)
-
     };
     const handleClose = () => setOpen(false);
     return (

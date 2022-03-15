@@ -1,5 +1,4 @@
 import Breadcrumb from '../components/Breadcrumb'
-import DataTable from '../components/DataTable'
 
 export default function Patients() {
     return (

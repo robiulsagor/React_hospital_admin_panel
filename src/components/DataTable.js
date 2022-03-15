@@ -1,12 +1,8 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useLocation } from 'react-router-dom';
 import AddData from './AddData';
-import { columns } from '../DummyData'
-import { rows } from '../DummyData'
-import BasicModal from './BasicModal';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -39,7 +35,6 @@ export default function DataTable({ data }) {
         return data;
     };
     const handleClose = () => setOpen(false);
-    console.log(handleOpen);
 
     // data
 
@@ -143,7 +138,7 @@ export default function DataTable({ data }) {
                 field: 'status', headerName: 'Status', flex: .2,
                 renderCell: (params) => (
                     <div className='statusContainer'>
-                        {params.value === 'active' ? <p className="statusText approvedText" onClick={console.log('hiii')}>{params.value}</p> : ''}
+                        {params.value === 'active' ? <p className="statusText approvedText" >{params.value}</p> : ''}
                         {params.value === 'deactive' ? <p className="statusText rejectedText">{params.value}</p> : ''}
                     </div>)
             },
@@ -153,7 +148,7 @@ export default function DataTable({ data }) {
                 renderCell: (params) => {
                     return (
                         <div className='tableActionContainer'>
-                            <VisibilityOutlinedIcon className='iconView' onClick={console.log('clicked')} />
+                            <VisibilityOutlinedIcon className='iconView' />
                             <EditIcon className='iconEdit' onClick={handleOpen} />
                         </div>
                     )

@@ -218,7 +218,8 @@ $primary-color: #7266d8;
             right: 10px;
             background: rgb(252, 252, 252);
             border-radius: 10px;
-            border: 1px solid saddlebrown;
+            z-index: 999;
+            box-shadow: 0 10px 10px rgb(155, 154, 154);
 
             .profileInfoFloatingTop {
                 text-align: center;

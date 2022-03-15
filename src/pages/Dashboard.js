@@ -1,5 +1,4 @@
 import React from 'react'
-import BasicModal from '../components/BasicModal'
 import Chart from '../components/charts/Chart'
 import DataTable from '../components/DataTable'
 
