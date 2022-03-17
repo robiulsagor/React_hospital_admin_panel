@@ -13,10 +13,10 @@ const Chart = ({ getSeries, type }) => {
             type: type,
         },
         responsive: [{
-            breakpoint: 480,
+            // breakpoint: 480,
             options: {
                 chart: {
-                    width: 200
+                    width: '50%'
                 },
                 legend: {
                     position: 'bottom'
@@ -34,7 +34,8 @@ const Chart = ({ getSeries, type }) => {
             </h3>
             <ReactApexChart options={options}
                 series={(getSeries === 'patientsAge' && series.patientsAge) || (getSeries === 'patientsGender' && series.patientsGender) || (getSeries === 'departments' && series.departments)}
-                type={type} />
+                type={type}
+                width='360' />
         </div>
 
     )

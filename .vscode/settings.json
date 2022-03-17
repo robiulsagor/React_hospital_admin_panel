@@ -1,3 +1,5 @@
 {
-    "editor.fontSize": 19
+    "editor.fontSize": 28,
+    "files.autoSave": "onFocusChange",
+    "scm.inputFontSize": 19
 }

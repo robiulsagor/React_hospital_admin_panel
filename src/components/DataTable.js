@@ -2,14 +2,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useLocation } from 'react-router-dom';
 import AddData from './AddData';
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import AddForm from './AddForm';
-
 
 const style = {
     position: 'absolute',
@@ -28,11 +27,15 @@ export default function DataTable({ data }) {
     const history = useLocation()
     const nav = history.pathname.split('/')[1]
 
+    const [editID, setEditID] = useState('')
+
     // modal
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = (data) => {
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = (id) => {
+        setEditID(id)
         setOpen(true)
-        return data;
+        console.log(id);
     };
     const handleClose = () => setOpen(false);
 
@@ -41,14 +44,13 @@ export default function DataTable({ data }) {
     const columns = {
         doctors:
             [
-                { field: 'id', headerName: 'ID', flex: .2 },
-                { field: 'name', headerName: 'Name', editable: true, flex: .8 },
+                { field: 'id', headerName: 'ID', flex: .3, align: 'center', headerAlign: 'center' },
+                { field: 'name', headerName: 'Name', flex: .8 },
                 {
-                    field: 'address', headerName: 'Address', flex: 1,
+                    field: 'address', headerName: 'Address', flex: .7,
                     renderCell: (params) => (
-                        <div>
-                            <p>{params.value.addressLineOne}</p>
-                            <p color="textSecondary">{params.value.addressLineTwo}</p>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {params.value.address}
                         </div>)
                 },
                 {
@@ -56,17 +58,19 @@ export default function DataTable({ data }) {
                     headerName: 'Number of Daily Appoinments',
                     type: 'number',
                     flex: 1,
-                    align: 'center'
+                    align: 'center', headerAlign: 'center'
                 },
                 {
                     field: 'memberSince',
                     headerName: 'Member Since',
                     flex: .7,
                     type: 'date',
+                    align: 'center', headerAlign: 'center'
                 },
                 {
                     field: 'status',
                     headerName: 'Account Status',
+                    align: 'center', headerAlign: 'center',
                     flex: .6,
                     renderCell: (params) => (
                         <div className='statusContainer'>
@@ -79,6 +83,7 @@ export default function DataTable({ data }) {
                 {
                     field: 'action',
                     headerName: 'Action', flex: .3,
+                    align: 'center', headerAlign: 'center',
                     renderCell: (params) => {
                         return (
                             <div className='tableActionContainer'>
@@ -92,32 +97,33 @@ export default function DataTable({ data }) {
             ],
         appointments:
             [
-                { field: 'id', headerName: 'ID', flex: .2 },
-                { field: 'name', headerName: 'Name', editable: true, flex: .8 },
+                { field: 'id', headerName: 'ID', flex: .2, align: 'center', headerAlign: 'center' },
+                { field: 'name', headerName: 'Name', flex: .8 },
                 {
                     field: 'address', headerName: 'Address', flex: 1,
                     renderCell: (params) => (
-                        <div>
-                            <p>{params.value.addressLineOne}</p>
-                            <p color="textSecondary">{params.value.addressLineTwo}</p>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {params.value.address}
                         </div>)
                 },
                 {
                     field: 'dailyAppoints',
                     headerName: 'Number of Daily Appoinments',
+                    align: 'center', headerAlign: 'center',
                     type: 'number',
                     flex: 1,
-                    align: 'center'
                 },
                 {
                     field: 'memberSince',
                     headerName: 'Member Since',
+                    align: 'center', headerAlign: 'center',
                     flex: .7,
                     type: 'date',
                 },
                 {
                     field: 'status',
                     headerName: 'Account Status',
+                    align: 'center', headerAlign: 'center',
                     flex: .6,
                     renderCell: (params) => (
                         <div className='statusContainer'>
@@ -131,11 +137,12 @@ export default function DataTable({ data }) {
 
             ],
         departments: [
-            { field: 'id', headerName: 'ID', flex: .3 },
-            { field: 'departmentName', headerName: 'Department Name', editable: true, flex: 1 },
-            { field: 'doctors', headerName: 'Doctors', flex: .2, type: 'string' },
+            { field: 'id', headerName: 'ID', flex: .2, align: 'center', headerAlign: 'center' },
+            { field: 'departmentName', headerName: 'Department Name', flex: .7 },
+            { field: 'doctors', headerName: 'Doctors', flex: .5, type: 'string', align: 'center', headerAlign: 'center' },
             {
-                field: 'status', headerName: 'Status', flex: .2,
+                field: 'status', headerName: 'Status', flex: .3,
+                align: 'center', headerAlign: 'center',
                 renderCell: (params) => (
                     <div className='statusContainer'>
                         {params.value === 'active' ? <p className="statusText approvedText" >{params.value}</p> : ''}
@@ -144,12 +151,13 @@ export default function DataTable({ data }) {
             },
             {
                 field: 'action',
-                headerName: 'Action', flex: .3,
+                headerName: 'Action', flex: .2,
+                align: 'center', headerAlign: 'center',
                 renderCell: (params) => {
                     return (
                         <div className='tableActionContainer'>
                             <VisibilityOutlinedIcon className='iconView' />
-                            <EditIcon className='iconEdit' onClick={handleOpen} />
+                            <EditIcon className='iconEdit' onClick={() => handleOpen(params.id)} />
                         </div>
                     )
                 }
@@ -158,13 +166,12 @@ export default function DataTable({ data }) {
         patients:
             [
                 { field: 'id', headerName: 'ID', flex: .2 },
-                { field: 'name', headerName: 'Name', editable: true, flex: .8 },
+                { field: 'name', headerName: 'Name', flex: .8 },
                 {
                     field: 'address', headerName: 'Address', flex: 1,
                     renderCell: (params) => (
-                        <div>
-                            <p>{params.value.addressLineOne}</p>
-                            <p color="textSecondary">{params.value.addressLineTwo}</p>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {params.value.address}
                         </div>)
                 },
                 {
@@ -198,13 +205,12 @@ export default function DataTable({ data }) {
         transactions:
             [
                 { field: 'id', headerName: 'ID', flex: .2 },
-                { field: 'name', headerName: 'Name', editable: true, flex: .8 },
+                { field: 'name', headerName: 'Name', flex: .8 },
                 {
                     field: 'address', headerName: 'Address', flex: 1,
                     renderCell: (params) => (
-                        <div>
-                            <p>{params.value.addressLineOne}</p>
-                            <p color="textSecondary">{params.value.addressLineTwo}</p>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {params.value.address}
                         </div>)
                 },
                 {
@@ -238,13 +244,12 @@ export default function DataTable({ data }) {
         reports:
             [
                 { field: 'id', headerName: 'ID', flex: .2 },
-                { field: 'name', headerName: 'Name', editable: true, flex: .8 },
+                { field: 'name', headerName: 'Name', flex: .8 },
                 {
                     field: 'address', headerName: 'Address', flex: 1,
                     renderCell: (params) => (
-                        <div>
-                            <p>{params.value.addressLineOne}</p>
-                            <p color="textSecondary">{params.value.addressLineTwo}</p>
+                        <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {params.value.address}
                         </div>)
                 },
                 {
@@ -314,49 +319,49 @@ export default function DataTable({ data }) {
         doctors:
             [
                 {
-                    id: 1, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 1, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 2, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 2, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 3, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 3, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 4, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 4, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 5, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 5, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 6, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 6, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 7, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 7, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
                 {
-                    id: 8, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 8, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
             ],
         appointments:
             [
                 {
-                    id: 1, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 1, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 2, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 2, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 3, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 3, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 4, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 4, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
                 {
-                    id: 5, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 5, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 6, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 6, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
             ],
         departments: [
@@ -368,64 +373,64 @@ export default function DataTable({ data }) {
         patients:
             [
                 {
-                    id: 1, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 1, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 2, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 2, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 3, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 3, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 4, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 4, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
                 {
-                    id: 5, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 5, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 6, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 6, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
             ],
         transactions:
             [
                 {
-                    id: 1, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 1, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 2, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 2, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 3, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 3, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 4, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 4, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
                 {
-                    id: 5, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 5, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 6, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 6, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
             ],
         reports:
             [
                 {
-                    id: 1, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 1, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 2, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
+                    id: 2, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'in progress'
                 },
                 {
-                    id: 3, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 3, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
                 {
-                    id: 4, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
+                    id: 4, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'approved'
                 },
                 {
-                    id: 5, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
+                    id: 5, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'pending'
                 },
                 {
-                    id: 6, name: 'Daniel', address: { addressLineOne: '71 Pilgrim Avenue', addressLineTwo: 'Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
+                    id: 6, name: 'Daniel', address: { address: '71 Pilgrim Avenue Chevy Chase MD 20815' }, dailyAppoints: '404-447-6013', memberSince: '404-447 - 6013', status: 'rejected'
                 },
             ],
         lastAppointments: [
@@ -448,7 +453,7 @@ export default function DataTable({ data }) {
 
             {((nav === 'doctors') || (nav === 'departments')) && <AddData open={handleOpen} close={handleClose} />}
 
-            <div style={{ height: 400, width: '100%' }}>
+            <div style={{ width: '100%' }}>
                 <div style={{ display: 'flex', height: '100%' }}>
                     <div style={{ flexGrow: 1 }}>
                         <DataGrid
@@ -456,7 +461,9 @@ export default function DataTable({ data }) {
                             columns={(nav === '' && columns.lastAppointments) || (nav === 'departments' && columns.departments) || (nav === 'doctors' && columns.doctors) || (nav === 'appointments' && columns.appointments) || (nav === 'patients' && columns.patients) || (nav === 'transactions' && columns.transactions) || (nav === 'reports' && columns.reports)}
                             pageSize={5}
                             rowsPerPageOptions={[5]}
-                            checkboxSelection
+                            density='comfortable'
+                            autoHeight={true}
+                            isEditable={false}
                             sx={{
                                 width: '100%',
                                 fontFamily: 'GM',
@@ -472,6 +479,8 @@ export default function DataTable({ data }) {
                     </div>
                 </div>
             </div>
+
+            {/* MODAL */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -480,12 +489,9 @@ export default function DataTable({ data }) {
                 sx={{ overflow: 'scroll', width: '100%' }}
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 0 }}>
-                        <AddForm type='edit' close={handleClose} />
-                    </Typography>
+                    <div id="modal-modal-description" sx={{ mt: 0 }}>
+                        <AddForm type='edit' editID={editID} close={handleClose} />
+                    </div>
                 </Box>
             </Modal>
         </div>
